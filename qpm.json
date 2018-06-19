@@ -1,0 +1,22 @@
+{
+  "name": "com.futurecode.QtJsonSchema",
+  "description": "",
+  "author": {
+    "name": "FutureCode",
+    "email": "yzn20080@gmail.com"
+  },
+  "repository": {
+    "type": "GITHUB",
+    "url": "https://github.com/yznpku/QtJsonSchema.git"
+  },
+  "version": {
+    "label": "0.0.1",
+    "revision": "",
+    "fingerprint": ""
+  },
+  "dependencies": [
+  ],
+  "license": "MIT",
+  "pri_filename": "com_futurecode_QtJsonSchema.pri",
+  "webpage": ""
+}
