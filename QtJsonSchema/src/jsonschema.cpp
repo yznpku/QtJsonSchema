@@ -1,5 +1,6 @@
 #include "jsonschema.h"
 #include "jsonschema_p.h"
+#include "validator/jsonschemanodevalidator.h"
 
 JsonSchema::JsonSchema(const JsonSchema& other) noexcept
   : d(other.d)
@@ -24,48 +25,61 @@ JsonSchema::~JsonSchema()
     delete d;
 }
 
-JsonSchema JsonSchema::fromVariant(const QVariant& variant, JsonSchema::Version version)
+JsonSchema JsonSchema::fromJson(const QJsonValue& json, JsonSchemaVersion::Version version)
 {
   JsonSchema schema(version);
-  schema.d->root = variant;
+  auto d = schema.d;
 
   const auto& meta = JsonSchema::metaSchema(version);
-  if (!meta.validate(variant))
+  if (!meta.validate(json))
     return JsonSchema(version);
 
+  d->setSchema(json);
   return schema;
 }
 
-JsonSchema JsonSchema::fromJsonDocument(const QJsonDocument& document, JsonSchema::Version version)
+JsonSchema JsonSchema::fromVariant(const QVariant& variant, JsonSchemaVersion::Version version)
+{
+  return fromJson(QJsonValue::fromVariant(variant), version);
+}
+
+JsonSchema JsonSchema::fromJsonDocument(const QJsonDocument& document, JsonSchemaVersion::Version version)
 {
   return fromVariant(document.toVariant(), version);
 }
 
-JsonSchema JsonSchema::fromJson(const QByteArray& json, JsonSchema::Version version)
+JsonSchema JsonSchema::fromJsonString(const QByteArray& json, JsonSchemaVersion::Version version)
 {
   return fromJsonDocument(QJsonDocument::fromJson(json), version);
 }
 
-JsonSchema JsonSchema::metaSchema(JsonSchema::Version version)
+JsonSchema JsonSchema::metaSchema(JsonSchemaVersion::Version version)
 {
   JsonSchema schema(version);
-
+  schema.d->setSchema(QJsonValue(QJsonValue::Object));
   return schema;
 }
 
-bool JsonSchema::validate(const QVariant& variant) const
+bool JsonSchema::validate(const QJsonValue& instance) const
 {
-  return true;
+  const auto& errors = d->validator->validateNode(JsonPointer(d->root), JsonPointer(instance));
+  qDebug() << errors;
+  return errors.isEmpty();
 }
 
-bool JsonSchema::validate(const QJsonDocument& document) const
+bool JsonSchema::validate(const QVariant& instance) const
 {
-  return validate(document.toVariant());
+  return validate(QJsonValue::fromVariant(instance));
 }
 
-bool JsonSchema::validate(const QByteArray& json) const
+bool JsonSchema::validate(const QJsonDocument& instance) const
 {
-  return validate(QJsonDocument::fromJson(json));
+  return validate(instance.toVariant());
+}
+
+bool JsonSchema::validate(const QByteArray& instance) const
+{
+  return validate(QJsonDocument::fromJson(instance));
 }
 
 bool JsonSchema::isValid() const
@@ -73,12 +87,19 @@ bool JsonSchema::isValid() const
   return true;
 }
 
-JsonSchema::JsonSchema(Version version)
+JsonSchema::JsonSchema(JsonSchemaVersion::Version version)
   : d(new JsonSchemaPrivate(version))
 {
 }
 
-JsonSchemaPrivate::JsonSchemaPrivate(JsonSchema::Version version)
+JsonSchemaPrivate::JsonSchemaPrivate(JsonSchemaVersion::Version version)
 {
   this->version = version;
+  validator.reset(JsonSchemaNodeValidator::getValidator(version));
+}
+
+void JsonSchemaPrivate::setSchema(const QJsonValue& schema)
+{
+  root = schema;
+  valid = true;
 }

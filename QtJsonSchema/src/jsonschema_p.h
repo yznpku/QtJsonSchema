@@ -2,18 +2,23 @@
 #define JSONSCHEMA_P_H
 
 #include "jsonschema.h"
+#include <memory>
+#include "validator/jsonschemanodevalidator.h"
 
 class JsonSchemaPrivate
 {
 public:
   QAtomicInt ref;
 
-  JsonSchema::Version version;
-  QVariant root;
+  JsonSchemaVersion::Version version;
+  QJsonValue root;
   bool valid {false};
+  std::unique_ptr<JsonSchemaNodeValidator> validator;
 
 public:
-  JsonSchemaPrivate(JsonSchema::Version version);
+  JsonSchemaPrivate(JsonSchemaVersion::Version version);
+
+  void setSchema(const QJsonValue& schema);
 };
 
 #endif // JSONSCHEMA_P_H

@@ -2,13 +2,11 @@
 #define JSONSCHEMA_H
 
 #include <QtCore>
+#include "global.h"
 
 class JsonSchemaPrivate;
 class JsonSchema
 {
-
-public:
-  enum Version { Draft04, Draft06, Draft07 };
 
 public:
   JsonSchema(const JsonSchema& other) noexcept;
@@ -21,19 +19,21 @@ public:
     { qSwap(d, other.d); }
   ~JsonSchema();
 
-  static JsonSchema fromVariant(const QVariant& variant, Version version = Draft07);
-  static JsonSchema fromJsonDocument(const QJsonDocument& document, Version version = Draft07);
-  static JsonSchema fromJson(const QByteArray& json, Version version = Draft07);
-  static JsonSchema metaSchema(Version version);
+  static JsonSchema fromJson(const QJsonValue& json, JsonSchemaVersion::Version version = JsonSchemaVersion::Draft07);
+  static JsonSchema fromVariant(const QVariant& variant, JsonSchemaVersion::Version version = JsonSchemaVersion::Draft07);
+  static JsonSchema fromJsonDocument(const QJsonDocument& document, JsonSchemaVersion::Version version = JsonSchemaVersion::Draft07);
+  static JsonSchema fromJsonString(const QByteArray& json, JsonSchemaVersion::Version version = JsonSchemaVersion::Draft07);
+  static JsonSchema metaSchema(JsonSchemaVersion::Version version);
 
 public:
-  bool validate(const QVariant& variant) const;
-  bool validate(const QJsonDocument& document) const;
-  bool validate(const QByteArray& json) const;
+  bool validate(const QJsonValue& instance) const;
+  bool validate(const QVariant& instance) const;
+  bool validate(const QJsonDocument& instance) const;
+  bool validate(const QByteArray& instance) const;
   bool isValid() const;
 
 protected:
-  JsonSchema(Version version);
+  JsonSchema(JsonSchemaVersion::Version version);
   JsonSchemaPrivate* d;
 };
 
