@@ -2,6 +2,7 @@
 #define COMMON_H
 
 #include <initializer_list>
+#include <QtTest>
 #include "../QtJsonSchema/src/jsonschema.h"
 
 #define ADD_ROW QTest::addRow("L%d", __LINE__)

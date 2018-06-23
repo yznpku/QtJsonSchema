@@ -1,7 +1,7 @@
 #ifndef CONSTCLAUSETEST_H
 #define CONSTCLAUSETEST_H
 
-#include <QtTest>
+#include <QObject>
 
 class ConstClauseTest : public QObject
 {

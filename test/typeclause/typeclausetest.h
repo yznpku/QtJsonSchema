@@ -1,7 +1,7 @@
 #ifndef TYPECLAUSETEST_H
 #define TYPECLAUSETEST_H
 
-#include <QtTest>
+#include <QObject>
 
 class TypeClauseTest : public QObject
 {

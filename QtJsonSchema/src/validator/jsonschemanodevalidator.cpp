@@ -23,6 +23,9 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::validateNode(const Jso
   if (o.contains("type"))
     errors.append(typeClause(schemaPtr, instancePtr));
 
+  if (o.contains("enum"))
+    errors.append(enumClause(schemaPtr, instancePtr));
+
   if (o.contains("const"))
     errors.append(constClause(schemaPtr, instancePtr));
 
@@ -95,6 +98,17 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::typeClause(const JsonP
     }
 
   return {{ schemaPtr, instancePtr, "type" }};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::enumClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& schemaValue = schemaPtr.v["enum"];
+  const auto& instance = instancePtr.v;
+
+  if (!schemaValue.toArray().contains(instance))
+    return {{ schemaPtr, instancePtr, "enum" }};
+
+  return {};
 }
 
 QList<JsonSchemaValidationError> JsonSchemaNodeValidator::constClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
