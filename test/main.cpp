@@ -1,15 +1,10 @@
 #include <QtCore>
 #include <QtDebug>
-#include "jsonschema.h"
+#include "typeclause/typeclausetest.h"
 
 int main()
 {
-  auto schema = JsonSchema::fromVariant(QVariantMap {{"type", "string"}});
-  auto instance1 = QVariant("hello");
-  auto instance2 = QVariant(42);
-
-  qDebug() << schema.validate(instance1);
-  qDebug() << schema.validate(instance2);
+  QTest::qExec(new TypeClauseTest);
 
   return 0;
 }

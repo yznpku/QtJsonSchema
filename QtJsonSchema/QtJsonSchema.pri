@@ -1,7 +1,7 @@
 HEADERS += \
     $$PWD/src/*.h \
     $$PWD/src/validator/*.h \
-    $$PWD/src/metaschema/draft04.h \
+    $$PWD/src/metaschema/*.h \
     $$PWD/src/pointer/*.h
 
 SOURCES += \

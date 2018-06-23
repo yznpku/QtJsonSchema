@@ -63,7 +63,6 @@ JsonSchema JsonSchema::metaSchema(JsonSchemaVersion::Version version)
 bool JsonSchema::validate(const QJsonValue& instance) const
 {
   const auto& errors = d->validator->validateNode(JsonPointer(d->root), JsonPointer(instance));
-  qDebug() << errors;
   return errors.isEmpty();
 }
 
