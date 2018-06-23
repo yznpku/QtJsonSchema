@@ -10,7 +10,9 @@ HEADERS += \
     $$PWD/maximumclause/*.h \
     $$PWD/exclusivemaximumclause/*.h \
     $$PWD/minimumclause/*.h \
-    $$PWD/exclusiveminimumclause/*.h
+    $$PWD/exclusiveminimumclause/*.h \
+    $$PWD/maxlengthclause/*.h \
+    $$PWD/minlengthclause/*.h
 
 SOURCES += \
     $$PWD/*.cpp \
@@ -21,4 +23,6 @@ SOURCES += \
     $$PWD/maximumclause/*.cpp \
     $$PWD/exclusivemaximumclause/*.cpp \
     $$PWD/minimumclause/*.cpp \
-    $$PWD/exclusiveminimumclause/*.cpp
+    $$PWD/exclusiveminimumclause/*.cpp \
+    $$PWD/maxlengthclause/*.cpp \
+    $$PWD/minlengthclause/*.cpp

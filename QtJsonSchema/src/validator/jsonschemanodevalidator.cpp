@@ -46,6 +46,14 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::validateNode(const Jso
       errors.append(exclusiveMinimumClause(schemaPtr, instancePtr));
   }
 
+  else if (instancePtr.v.isString()) {
+    if (o.contains("maxLength"))
+      errors.append(maxLengthClause(schemaPtr, instancePtr));
+
+    if (o.contains("minLength"))
+      errors.append(minLengthClause(schemaPtr, instancePtr));
+  }
+
   return errors;
 }
 
@@ -192,4 +200,26 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::exclusiveMinimumClause
     return {};
 
   return {{ schemaPtr, instancePtr, "exclusiveMinimum" }};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::maxLengthClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& schemaValue = schemaPtr.v["maxLength"].toInt();
+  const auto& instance = instancePtr.v.toString();
+
+  if (instance.length() <= schemaValue)
+    return {};
+
+  return {{ schemaPtr, instancePtr, "maxLength" }};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::minLengthClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& schemaValue = schemaPtr.v["minLength"].toInt();
+  const auto& instance = instancePtr.v.toString();
+
+  if (instance.length() >= schemaValue)
+    return {};
+
+  return {{ schemaPtr, instancePtr, "minLength" }};
 }

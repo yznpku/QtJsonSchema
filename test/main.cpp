@@ -8,6 +8,8 @@
 #include "exclusivemaximumclause/exclusivemaximumclausetest.h"
 #include "minimumclause/minimumclausetest.h"
 #include "exclusiveminimumclause/exclusiveminimumclausetest.h"
+#include "maxlengthclause/maxlengthclausetest.h"
+#include "minlengthclause/minlengthclausetest.h"
 
 int main()
 {
@@ -20,6 +22,9 @@ int main()
   QTest::qExec(new ExclusiveMaximumClauseTest);
   QTest::qExec(new MinimumClauseTest);
   QTest::qExec(new ExclusiveMinimumClauseTest);
+
+  QTest::qExec(new MaxLengthClauseTest);
+  QTest::qExec(new MinLengthClauseTest);
 
   return 0;
 }
