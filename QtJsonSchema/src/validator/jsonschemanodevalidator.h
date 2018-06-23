@@ -19,6 +19,7 @@ protected:
   JsonSchemaNodeValidator() {}
 
   virtual QList<JsonSchemaValidationError> typeClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr);
+  virtual QList<JsonSchemaValidationError> constClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr);
 };
 
 #endif // JSONSCHEMANODEVALIDATOR_H

@@ -8,8 +8,7 @@ TypeClauseTest::TypeClauseTest(QObject* parent) : QObject(parent)
 
 void TypeClauseTest::acceptStringSchema_data()
 {
-  QTest::addColumn<V>("schema");
-  QTest::addColumn<V>("instance");
+  acceptOne_data();
 
   ADD_ROW << VM({{"type", "null"}}) << V();
 
@@ -34,11 +33,7 @@ void TypeClauseTest::acceptStringSchema_data()
 
 void TypeClauseTest::acceptStringSchema()
 {
-  QFETCH(V, schema);
-  QFETCH(V, instance);
-
-  const auto& s = JsonSchema::fromVariant(schema);
-  QVERIFY(s.validate(instance));
+  acceptOne();
 }
 
 void TypeClauseTest::rejectStringSchema_data()
@@ -87,18 +82,12 @@ void TypeClauseTest::rejectStringSchema_data()
 
 void TypeClauseTest::rejectStringSchema()
 {
-  QFETCH(V, schema);
-  QFETCH(V, instance);
-
-  const auto& s = JsonSchema::fromVariant(schema);
-  QVERIFY(!s.validate(instance));
+  rejectOne();
 }
 
 void TypeClauseTest::arraySchema_data()
 {
-  QTest::addColumn<V>("schema");
-  QTest::addColumn<V>("acceptInstanceList");
-  QTest::addColumn<V>("rejectInstanceList");
+  acceptAndRejectList_data();
 
   ADD_ROW << VM({{"type", VL({"null", "boolean", "array"})}})
           << VL({V(), false, VL({})})
@@ -107,15 +96,5 @@ void TypeClauseTest::arraySchema_data()
 
 void TypeClauseTest::arraySchema()
 {
-  QFETCH(V, schema);
-  QFETCH(V, acceptInstanceList);
-  QFETCH(V, rejectInstanceList);
-
-  const auto& s = JsonSchema::fromVariant(schema);
-
-  foreach (const auto& instance, acceptInstanceList.toList())
-    QVERIFY(s.validate(instance));
-
-  foreach (const auto& instance, rejectInstanceList.toList())
-    QVERIFY(!s.validate(instance));
+  acceptAndRejectList();
 }

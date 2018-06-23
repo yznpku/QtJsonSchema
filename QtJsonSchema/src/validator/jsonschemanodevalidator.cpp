@@ -23,6 +23,9 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::validateNode(const Jso
   if (o.contains("type"))
     errors.append(typeClause(schemaPtr, instancePtr));
 
+  if (o.contains("const"))
+    errors.append(constClause(schemaPtr, instancePtr));
+
   return errors;
 }
 
@@ -92,4 +95,15 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::typeClause(const JsonP
     }
 
   return {{ schemaPtr, instancePtr, "type" }};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::constClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& schemaValue = schemaPtr.v["const"];
+  const auto& instance = instancePtr.v;
+
+  if (schemaValue != instance)
+    return {{ schemaPtr, instancePtr, "const" }};
+
+  return {};
 }
