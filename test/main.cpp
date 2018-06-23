@@ -4,6 +4,10 @@
 #include "constclause/constclausetest.h"
 #include "enumclause/enumclause.h"
 #include "multipleofclause/multipleofclausetest.h"
+#include "maximumclause/maximumclausetest.h"
+#include "exclusivemaximumclause/exclusivemaximumclausetest.h"
+#include "minimumclause/minimumclausetest.h"
+#include "exclusiveminimumclause/exclusiveminimumclausetest.h"
 
 int main()
 {
@@ -12,6 +16,10 @@ int main()
   QTest::qExec(new EnumClause);
 
   QTest::qExec(new MultipleOfClauseTest);
+  QTest::qExec(new MaximumClauseTest);
+  QTest::qExec(new ExclusiveMaximumClauseTest);
+  QTest::qExec(new MinimumClauseTest);
+  QTest::qExec(new ExclusiveMinimumClauseTest);
 
   return 0;
 }

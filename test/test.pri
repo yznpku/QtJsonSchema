@@ -6,11 +6,19 @@ HEADERS += \
     $$PWD/typeclause/*.h \
     $$PWD/constclause/*.h \
     $$PWD/enumclause/*.h \
-    $$PWD/multipleofclause/*.h
+    $$PWD/multipleofclause/*.h \
+    $$PWD/maximumclause/*.h \
+    $$PWD/exclusivemaximumclause/*.h \
+    $$PWD/minimumclause/*.h \
+    $$PWD/exclusiveminimumclause/*.h
 
 SOURCES += \
     $$PWD/*.cpp \
     $$PWD/typeclause/*.cpp \
     $$PWD/constclause/*.cpp \
     $$PWD/enumclause/*.cpp \
-    $$PWD/multipleofclause/*.cpp
+    $$PWD/multipleofclause/*.cpp \
+    $$PWD/maximumclause/*.cpp \
+    $$PWD/exclusivemaximumclause/*.cpp \
+    $$PWD/minimumclause/*.cpp \
+    $$PWD/exclusiveminimumclause/*.cpp

@@ -23,6 +23,10 @@ protected:
   virtual QList<JsonSchemaValidationError> constClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr);
 
   virtual QList<JsonSchemaValidationError> multipleOfClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr);
+  virtual QList<JsonSchemaValidationError> maximumClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr);
+  virtual QList<JsonSchemaValidationError> exclusiveMaximumClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr);
+  virtual QList<JsonSchemaValidationError> minimumClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr);
+  virtual QList<JsonSchemaValidationError> exclusiveMinimumClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr);
 };
 
 #endif // JSONSCHEMANODEVALIDATOR_H

@@ -32,6 +32,18 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::validateNode(const Jso
   if (instancePtr.v.isDouble()) {
     if (o.contains("multipleOf"))
       errors.append(multipleOfClause(schemaPtr, instancePtr));
+
+    if (o.contains("maximum"))
+      errors.append(maximumClause(schemaPtr, instancePtr));
+
+    if (o.contains("exclusiveMaximum"))
+      errors.append(exclusiveMaximumClause(schemaPtr, instancePtr));
+
+    if (o.contains("minimum"))
+      errors.append(minimumClause(schemaPtr, instancePtr));
+
+    if (o.contains("exclusiveMinimum"))
+      errors.append(exclusiveMinimumClause(schemaPtr, instancePtr));
   }
 
   return errors;
@@ -110,10 +122,10 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::enumClause(const JsonP
   const auto& schemaValue = schemaPtr.v["enum"];
   const auto& instance = instancePtr.v;
 
-  if (!schemaValue.toArray().contains(instance))
-    return {{ schemaPtr, instancePtr, "enum" }};
+  if (schemaValue.toArray().contains(instance))
+    return {};
 
-  return {};
+  return {{ schemaPtr, instancePtr, "enum" }};
 }
 
 QList<JsonSchemaValidationError> JsonSchemaNodeValidator::constClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
@@ -121,10 +133,10 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::constClause(const Json
   const auto& schemaValue = schemaPtr.v["const"];
   const auto& instance = instancePtr.v;
 
-  if (schemaValue != instance)
-    return {{ schemaPtr, instancePtr, "const" }};
+  if (schemaValue == instance)
+    return {};
 
-  return {};
+  return {{ schemaPtr, instancePtr, "const" }};
 }
 
 QList<JsonSchemaValidationError> JsonSchemaNodeValidator::multipleOfClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
@@ -132,8 +144,52 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::multipleOfClause(const
   const auto& schemaValue = schemaPtr.v["multipleOf"].toDouble();
   const auto& instance = instancePtr.v.toDouble();
 
-  if (std::fmod(instance, schemaValue) != 0)
-    return {{ schemaPtr, instancePtr, "multipleOf" }};
+  if (std::fmod(instance, schemaValue) == 0)
+    return {};
 
-  return {};
+  return {{ schemaPtr, instancePtr, "multipleOf" }};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::maximumClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& schemaValue = schemaPtr.v["maximum"].toDouble();
+  const auto& instance = instancePtr.v.toDouble();
+
+  if (instance <= schemaValue)
+    return {};
+
+  return {{ schemaPtr, instancePtr, "maximum" }};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::exclusiveMaximumClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& schemaValue = schemaPtr.v["exclusiveMaximum"].toDouble();
+  const auto& instance = instancePtr.v.toDouble();
+
+  if (instance < schemaValue)
+    return {};
+
+  return {{ schemaPtr, instancePtr, "exclusiveMaximum" }};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::minimumClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& schemaValue = schemaPtr.v["minimum"].toDouble();
+  const auto& instance = instancePtr.v.toDouble();
+
+  if (instance >= schemaValue)
+    return {};
+
+  return {{ schemaPtr, instancePtr, "minimum" }};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::exclusiveMinimumClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& schemaValue = schemaPtr.v["exclusiveMinimum"].toDouble();
+  const auto& instance = instancePtr.v.toDouble();
+
+  if (instance > schemaValue)
+    return {};
+
+  return {{ schemaPtr, instancePtr, "exclusiveMinimum" }};
 }
