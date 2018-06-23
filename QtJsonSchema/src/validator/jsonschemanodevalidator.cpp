@@ -29,6 +29,11 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::validateNode(const Jso
   if (o.contains("const"))
     errors.append(constClause(schemaPtr, instancePtr));
 
+  if (instancePtr.v.isDouble()) {
+    if (o.contains("multipleOf"))
+      errors.append(multipleOfClause(schemaPtr, instancePtr));
+  }
+
   return errors;
 }
 
@@ -118,6 +123,17 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::constClause(const Json
 
   if (schemaValue != instance)
     return {{ schemaPtr, instancePtr, "const" }};
+
+  return {};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::multipleOfClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& schemaValue = schemaPtr.v["multipleOf"].toDouble();
+  const auto& instance = instancePtr.v.toDouble();
+
+  if (std::fmod(instance, schemaValue) != 0)
+    return {{ schemaPtr, instancePtr, "multipleOf" }};
 
   return {};
 }
