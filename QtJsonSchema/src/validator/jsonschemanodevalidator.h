@@ -30,6 +30,7 @@ protected:
 
   virtual QList<JsonSchemaValidationError> maxLengthClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr);
   virtual QList<JsonSchemaValidationError> minLengthClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr);
+  virtual QList<JsonSchemaValidationError> patternClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr);
 };
 
 #endif // JSONSCHEMANODEVALIDATOR_H

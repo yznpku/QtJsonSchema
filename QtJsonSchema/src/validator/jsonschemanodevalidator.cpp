@@ -52,6 +52,9 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::validateNode(const Jso
 
     if (o.contains("minLength"))
       errors.append(minLengthClause(schemaPtr, instancePtr));
+
+    if (o.contains("pattern"))
+      errors.append(patternClause(schemaPtr, instancePtr));
   }
 
   return errors;
@@ -222,4 +225,16 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::minLengthClause(const 
     return {};
 
   return {{ schemaPtr, instancePtr, "minLength" }};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::patternClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& schemaValue = schemaPtr.v["pattern"].toString();
+  const auto& instance = instancePtr.v.toString();
+
+  auto pattern = QRegularExpression(schemaValue);
+  if (pattern.match(instance).hasMatch())
+    return {};
+
+  return {{ schemaPtr, instancePtr, "pattern" }};
 }

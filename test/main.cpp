@@ -10,6 +10,7 @@
 #include "exclusiveminimumclause/exclusiveminimumclausetest.h"
 #include "maxlengthclause/maxlengthclausetest.h"
 #include "minlengthclause/minlengthclausetest.h"
+#include "patternclause/patternclausetest.h"
 
 int main()
 {
@@ -25,6 +26,7 @@ int main()
 
   QTest::qExec(new MaxLengthClauseTest);
   QTest::qExec(new MinLengthClauseTest);
+  QTest::qExec(new PatternClauseTest);
 
   return 0;
 }
