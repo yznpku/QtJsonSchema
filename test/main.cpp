@@ -1,5 +1,6 @@
 #include <QtCore>
 #include <QtTest>
+#include "booleanschema/booleanschematest.h"
 #include "typeclause/typeclausetest.h"
 #include "constclause/constclausetest.h"
 #include "enumclause/enumclause.h"
@@ -14,6 +15,8 @@
 
 int main()
 {
+  QTest::qExec(new BooleanSchemaTest);
+
   QTest::qExec(new TypeClauseTest);
   QTest::qExec(new ConstClauseTest);
   QTest::qExec(new EnumClause);

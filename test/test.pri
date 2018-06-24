@@ -13,7 +13,8 @@ HEADERS += \
     $$PWD/exclusiveminimumclause/*.h \
     $$PWD/maxlengthclause/*.h \
     $$PWD/minlengthclause/*.h \
-    $$PWD/patternclause/*.h
+    $$PWD/patternclause/*.h \
+    $$PWD/booleanschema/*.h
 
 SOURCES += \
     $$PWD/*.cpp \
@@ -27,4 +28,5 @@ SOURCES += \
     $$PWD/exclusiveminimumclause/*.cpp \
     $$PWD/maxlengthclause/*.cpp \
     $$PWD/minlengthclause/*.cpp \
-    $$PWD/patternclause/*.cpp
+    $$PWD/patternclause/*.cpp \
+    $$PWD/booleanschema/*.cpp
