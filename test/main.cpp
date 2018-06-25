@@ -21,6 +21,8 @@ int main()
     ":/string/maxLength-clause.json",
     ":/string/minLength-clause.json",
     ":/string/pattern-clause.json",
+
+    ":/array/items-clause-group.json",
   }));
 
   return 0;

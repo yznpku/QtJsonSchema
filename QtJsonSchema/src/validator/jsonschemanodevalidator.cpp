@@ -57,6 +57,14 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::validateNode(const Jso
       errors.append(patternClause(schemaPtr, instancePtr));
   }
 
+  else if (instancePtr.v.isArray()) {
+    if (o.contains("items"))
+      errors.append(itemsClause(schemaPtr, instancePtr));
+
+    if (o.contains("additionalItems"))
+      errors.append(additionalItemsClause(schemaPtr, instancePtr));
+  }
+
   return errors;
 }
 
@@ -237,4 +245,41 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::patternClause(const Js
     return {};
 
   return {{ schemaPtr, instancePtr, "pattern" }};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::itemsClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& schemaValue = schemaPtr.v["items"];
+  const auto& instance = instancePtr.v.toArray();
+
+  QList<JsonSchemaValidationError> errors;
+
+  if (schemaValue.isArray()) {
+    int n = std::min(schemaValue.toArray().size(), instance.size());
+    for (int i = 0; i < n; i++)
+      errors.append(validateNode(schemaPtr["items"][i], instancePtr[i]));
+
+  } else {
+    for (int i = 0; i < instance.size(); i++)
+      errors.append(validateNode(schemaPtr["items"], instancePtr[i]));
+  }
+
+  return errors;
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::additionalItemsClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& schemaValue = schemaPtr.v["additionalItems"];
+  const auto& instance = instancePtr.v.toArray();
+
+  QList<JsonSchemaValidationError> errors;
+
+  if (!schemaPtr.v.toObject().contains("items") || schemaPtr.v["items"].isArray()) {
+    int start = schemaPtr.v.toObject().contains("items") ? schemaPtr.v["items"].toArray().size() : 0;
+
+    for (int i = start; i < instance.size(); i++)
+      errors.append(validateNode(schemaPtr["additionalItems"], instancePtr[i]));
+  }
+
+  return errors;
 }

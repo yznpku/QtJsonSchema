@@ -12,5 +12,6 @@
         <file>string/maxLength-clause.json</file>
         <file>string/minLength-clause.json</file>
         <file>string/pattern-clause.json</file>
+        <file>array/items-clause-group.json</file>
     </qresource>
 </RCC>

@@ -1,0 +1,81 @@
+{
+  "testCases": [
+    {
+      "schema": {
+        "type": "array",
+        "items": {
+          "type": "number"
+        }
+      },
+      "accept": [
+        [1, 2, 3, 4, 5],
+        []
+      ],
+      "reject": [
+        [1, 2, "3", 4, 5]
+      ]
+    },
+    {
+      "schema": {
+        "type": "array",
+        "items": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "string",
+            "enum": ["Street", "Avenue", "Boulevard"]
+          },
+          {
+            "type": "string",
+            "enum": ["NW", "NE", "SW", "SE"]
+          }
+        ]
+      },
+      "accept": [
+        [1600, "Pennsylvania", "Avenue", "NW"],
+        [10, "Downing", "Street"],
+        [1600, "Pennsylvania", "Avenue", "NW", "Washington"]
+      ],
+      "reject": [
+        [24, "Sussex", "Drive"],
+        ["Palais de l'Élysée"]
+      ]
+    },
+    {
+      "schema": {
+        "type": "array",
+        "items": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "string",
+            "enum": ["Street", "Avenue", "Boulevard"]
+          },
+          {
+            "type": "string",
+            "enum": ["NW", "NE", "SW", "SE"]
+          }
+        ],
+        "additionalItems": {
+          "type": "integer"
+        }
+      },
+      "accept": [
+        [1600, "Pennsylvania", "Avenue", "NW"],
+        [1600, "Pennsylvania", "Avenue"],
+        [1600, "Pennsylvania", "Avenue", "NW", 1]
+      ],
+      "reject": [
+        [1600, "Pennsylvania", "Avenue", "NW", "hello"]
+      ]
+    }
+  ]
+}
