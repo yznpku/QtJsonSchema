@@ -1,35 +1,27 @@
 #include <QtCore>
 #include <QtTest>
-#include "booleanschema/booleanschematest.h"
-#include "typeclause/typeclausetest.h"
-#include "constclause/constclausetest.h"
-#include "enumclause/enumclause.h"
-#include "multipleofclause/multipleofclausetest.h"
-#include "maximumclause/maximumclausetest.h"
-#include "exclusivemaximumclause/exclusivemaximumclausetest.h"
-#include "minimumclause/minimumclausetest.h"
-#include "exclusiveminimumclause/exclusiveminimumclausetest.h"
-#include "maxlengthclause/maxlengthclausetest.h"
-#include "minlengthclause/minlengthclausetest.h"
-#include "patternclause/patternclausetest.h"
+
+#include "schemavalidationtest.h"
 
 int main()
 {
-  QTest::qExec(new BooleanSchemaTest);
+  QTest::qExec(new SchemaValidationTest({
+    ":/generic/boolean-schema.json",
 
-  QTest::qExec(new TypeClauseTest);
-  QTest::qExec(new ConstClauseTest);
-  QTest::qExec(new EnumClause);
+    ":/generic/type-clause.json",
+    ":/generic/const-clause.json",
+    ":/generic/enum-clause.json",
 
-  QTest::qExec(new MultipleOfClauseTest);
-  QTest::qExec(new MaximumClauseTest);
-  QTest::qExec(new ExclusiveMaximumClauseTest);
-  QTest::qExec(new MinimumClauseTest);
-  QTest::qExec(new ExclusiveMinimumClauseTest);
+    ":/numeric/multipleOf-clause.json",
+    ":/numeric/maximum-clause.json",
+    ":/numeric/exclusiveMaximum-clause.json",
+    ":/numeric/minimum-clause.json",
+    ":/numeric/exclusiveMinimum-clause.json",
 
-  QTest::qExec(new MaxLengthClauseTest);
-  QTest::qExec(new MinLengthClauseTest);
-  QTest::qExec(new PatternClauseTest);
+    ":/string/maxLength-clause.json",
+    ":/string/minLength-clause.json",
+    ":/string/pattern-clause.json",
+  }));
 
   return 0;
 }

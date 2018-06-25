@@ -1,0 +1,114 @@
+{
+  "testCases": [
+    {
+      "schema": {
+        "const": null
+      },
+      "accept": [
+        null
+      ],
+      "reject": [
+        false,
+        {},
+        [],
+        0,
+        ""
+      ]
+    },
+    {
+      "schema": {
+        "const": false
+      },
+      "accept": [
+        false
+      ],
+      "reject": [
+        null,
+        {},
+        [],
+        0,
+        ""
+      ]
+    },
+    {
+      "schema": {
+        "const": {
+          "hello": 1,
+          "world": 2
+        }
+      },
+      "accept": [
+        {
+          "hello": 1,
+          "world": 2
+        },
+        {
+          "world": 2,
+          "hello": 1
+        }
+      ],
+      "reject": [
+        null,
+        false,
+        [],
+        0,
+        ""
+      ]
+    },
+    {
+      "schema": {
+        "const": [
+          "hello",
+          "world"
+        ]
+      },
+      "accept": [
+        [
+          "hello",
+          "world"
+        ]
+      ],
+      "reject": [
+        null,
+        false,
+        {},
+        [
+          "world",
+          "hello"
+        ],
+        0,
+        ""
+      ]
+    },
+    {
+      "schema": {
+        "const": 0
+      },
+      "accept": [
+        0
+      ],
+      "reject": [
+        null,
+        false,
+        {},
+        [],
+        ""
+      ]
+    },
+    {
+      "schema": {
+        "const": ""
+      },
+      "accept": [
+        ""
+      ],
+      "reject": [
+        null,
+        false,
+        {},
+        [],
+        0
+      ]
+    }
+  ]
+}

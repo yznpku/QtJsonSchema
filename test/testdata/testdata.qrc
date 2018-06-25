@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>generic/boolean-schema.json</file>
+        <file>generic/type-clause.json</file>
+        <file>generic/const-clause.json</file>
+        <file>generic/enum-clause.json</file>
+        <file>numeric/exclusiveMaximum-clause.json</file>
+        <file>numeric/exclusiveMinimum-clause.json</file>
+        <file>numeric/maximum-clause.json</file>
+        <file>numeric/minimum-clause.json</file>
+        <file>numeric/multipleOf-clause.json</file>
+        <file>string/maxLength-clause.json</file>
+        <file>string/minLength-clause.json</file>
+        <file>string/pattern-clause.json</file>
+    </qresource>
+</RCC>

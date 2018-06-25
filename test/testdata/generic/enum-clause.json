@@ -1,0 +1,22 @@
+{
+  "testCases": [
+    {
+      "schema": {
+        "enum": [ null, { "hello": 1 }, [ "world" ], "string" ]
+      },
+      "accept": [
+        null,
+        { "hello": 1 },
+        [ "world" ],
+        "string"
+      ],
+      "reject": [
+        false,
+        { "hello": 2 },
+        [ "hello", "world" ],
+        "String",
+        3
+      ]
+    }
+  ]
+}

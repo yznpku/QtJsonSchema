@@ -1,0 +1,17 @@
+{
+  "testCases": [
+    {
+      "schema": {
+        "minLength": 5
+      },
+      "accept": [
+        "hello",
+        "woooooorld"
+      ],
+      "reject": [
+        "",
+        "no"
+      ]
+    }
+  ]
+}

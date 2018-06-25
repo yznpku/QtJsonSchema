@@ -1,0 +1,31 @@
+{
+  "testCases": [
+    {
+      "schema": {
+        "exclusiveMinimum": 10
+      },
+      "accept": [
+        10.1,
+        50
+      ],
+      "reject": [
+        -5,
+        0,
+        1,
+        10
+      ]
+    },
+    {
+      "schema": {
+        "exclusiveMinimum": 0
+      },
+      "accept": [
+        1
+      ],
+      "reject": [
+        -1,
+        0
+      ]
+    }
+  ]
+}

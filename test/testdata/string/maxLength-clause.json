@@ -1,0 +1,18 @@
+{
+  "testCases": [
+    {
+      "schema": {
+        "maxLength": 5
+      },
+      "accept": [
+        "",
+        "a",
+        "hello"
+      ],
+      "reject": [
+        "failed",
+        "loooool"
+      ]
+    }
+  ]
+}

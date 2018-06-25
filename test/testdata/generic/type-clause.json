@@ -1,0 +1,121 @@
+{
+  "testCases": [
+    {
+      "schema": {
+        "type": "null"
+      },
+      "accept": [
+        null
+      ],
+      "reject": [
+        false,
+        { "hello": 1 },
+        [ "world" ],
+        42,
+        "string"
+      ]
+    },
+    {
+      "schema": {
+        "type": "boolean"
+      },
+      "accept": [
+        true,
+        false
+      ],
+      "reject": [
+        null,
+        { "hello": 1 },
+        [ "world" ],
+        42,
+        "string"
+      ]
+    },
+    {
+      "schema": {
+        "type": "object"
+      },
+      "accept": [
+        {},
+        { "hello": 1 },
+        { "1": [], "_": { "b": null } }
+      ],
+      "reject": [
+        null,
+        false,
+        [ "world" ],
+        42,
+        "string"
+      ]
+    },
+    {
+      "schema": {
+        "type": "array"
+      },
+      "accept": [
+        [],
+        [ "world" ],
+        [[], null, { "hello": 1 }]
+      ],
+      "reject": [
+        null,
+        false,
+        { "hello": 1 },
+        42,
+        "string"
+      ]
+    },
+    {
+      "schema": {
+        "type": "number"
+      },
+      "accept": [
+        0,
+        69.5,
+        1e300
+      ],
+      "reject": [
+        null,
+        false,
+        { "hello": 1 },
+        [ "world" ],
+        "string"
+      ]
+    },
+    {
+      "schema": {
+        "type": "string"
+      },
+      "accept": [
+        "",
+        "another string"
+      ],
+      "reject": [
+        null,
+        false,
+        { "hello": 1 },
+        [ "world" ],
+        42
+      ]
+    },
+    {
+      "schema": {
+        "type": "integer"
+      },
+      "accept": [
+        0,
+        -5,
+        1e300
+      ],
+      "reject": [
+        null,
+        false,
+        { "hello": 1 },
+        [ "world" ],
+        "string",
+        1e-300,
+        4.5
+      ]
+    }
+  ]
+}

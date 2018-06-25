@@ -1,0 +1,28 @@
+{
+  "testCases": [
+    {
+      "schema": true,
+      "accept": [
+        null,
+        true,
+        { "hello": 1 },
+        [ "world" ],
+        42,
+        "string"
+      ],
+      "reject": []
+    },
+    {
+      "schema": false,
+      "accept": [],
+      "reject": [
+        null,
+        true,
+        { "hello": 1 },
+        [ "world" ],
+        42,
+        "string"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "testCases": [
+    {
+      "schema": {
+        "multipleOf": 10
+      },
+      "accept": [
+        0,
+        10,
+        50,
+        -20
+      ],
+      "reject": [
+        5,
+        10.5
+      ]
+    },
+    {
+      "schema": {
+        "multipleOf": 2.5
+      },
+      "accept": [
+        0,
+        2.5,
+        10,
+        -12.5
+      ],
+      "reject": [
+        0.5,
+        1,
+        6
+      ]
+    }
+  ]
+}

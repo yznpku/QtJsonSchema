@@ -1,0 +1,30 @@
+{
+  "testCases": [
+    {
+      "schema": {
+        "pattern": "^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$"
+      },
+      "accept": [
+        "555-1212",
+        "(888)555-1212"
+      ],
+      "reject": [
+        "(888)555-1212 ext. 532",
+        "(800)FLOWERS"
+      ]
+    },
+    {
+      "schema": {
+        "pattern": "el"
+      },
+      "accept": [
+        "el",
+        "lele",
+        "hello world"
+      ],
+      "reject": [
+        "le"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "testCases": [
+    {
+      "schema": {
+        "maximum": 10
+      },
+      "accept": [
+        -5,
+        0,
+        1,
+        10
+      ],
+      "reject": [
+        10.1,
+        50
+      ]
+    },
+    {
+      "schema": {
+        "maximum": 0
+      },
+      "accept": [
+        -1,
+        0
+      ],
+      "reject": [
+        1
+      ]
+    }
+  ]
+}
