@@ -1,0 +1,17 @@
+{
+  "testCases": [
+    {
+      "schema": {
+        "minItems": 2
+      },
+      "accept": [
+        [1, 2],
+        [1, 2, 3]
+      ],
+      "reject": [
+        [],
+        [1]
+      ]
+    }
+  ]
+}

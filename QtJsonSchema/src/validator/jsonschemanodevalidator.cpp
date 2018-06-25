@@ -63,6 +63,12 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::validateNode(const Jso
 
     if (o.contains("additionalItems"))
       errors.append(additionalItemsClause(schemaPtr, instancePtr));
+
+    if (o.contains("maxItems"))
+      errors.append(maxItemsClause(schemaPtr, instancePtr));
+
+    if (o.contains("minItems"))
+      errors.append(minItemsClause(schemaPtr, instancePtr));
   }
 
   return errors;
@@ -282,4 +288,26 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::additionalItemsClause(
   }
 
   return errors;
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::maxItemsClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& schemaValue = schemaPtr.v["maxItems"].toInt();
+  const auto& instance = instancePtr.v.toArray();
+
+  if (instance.size() <= schemaValue)
+    return {};
+
+  return {{ schemaPtr, instancePtr, "maxItems" }};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::minItemsClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& schemaValue = schemaPtr.v["minItems"].toInt();
+  const auto& instance = instancePtr.v.toArray();
+
+  if (instance.size() >= schemaValue)
+    return {};
+
+  return {{ schemaPtr, instancePtr, "minItems" }};
 }

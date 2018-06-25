@@ -23,6 +23,8 @@ int main()
     ":/string/pattern-clause.json",
 
     ":/array/items-clause-group.json",
+    ":/array/maxItems-clause.json",
+    ":/array/minItems-clause.json",
   }));
 
   return 0;
