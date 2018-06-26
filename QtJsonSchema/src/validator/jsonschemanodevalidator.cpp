@@ -73,6 +73,9 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::validateNode(const Jso
 
     if (o.contains("uniqueItems"))
       errors.append(uniqueItemsClause(schemaPtr, instancePtr));
+
+    if (o.contains("contains"))
+      errors.append(containsClause(schemaPtr, instancePtr));
   }
 
   return errors;
@@ -332,4 +335,17 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::uniqueItemsClause(cons
   }
 
   return {};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::containsClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& instance = instancePtr.v.toArray();
+
+  QList<JsonSchemaValidationError> errors;
+
+  for (int i = 0; i < instance.size(); i++)
+    if (validateNode(schemaPtr["contains"], instancePtr[i]).isEmpty())
+      return {};
+
+  return {{ schemaPtr, instancePtr, "contains" }};
 }
