@@ -1,0 +1,35 @@
+{
+  "testCases": [
+    {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "name":      { "type": "string" },
+          "email":     { "type": "string" },
+          "address":   { "type": "string" },
+          "telephone": { "type": "string" }
+        },
+        "required": ["name", "email"]
+      },
+      "accept": [
+        {
+          "name": "William Shakespeare",
+          "email": "bill@stratford-upon-avon.co.uk"
+        },
+        {
+          "name": "William Shakespeare",
+          "email": "bill@stratford-upon-avon.co.uk",
+          "address": "Henley Street, Stratford-upon-Avon, Warwickshire, England",
+          "authorship": "in question"
+        }
+      ],
+      "reject": [
+        {},
+        {
+          "name": "William Shakespeare",
+          "address": "Henley Street, Stratford-upon-Avon, Warwickshire, England"
+        }
+      ]
+    }
+  ]
+}

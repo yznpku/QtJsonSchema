@@ -27,6 +27,10 @@ int main()
     ":/array/minItems-clause.json",
     ":/array/uniqueItems-clause.json",
     ":/array/contains-clause.json",
+
+    ":/object/maxProperties-clause.json",
+    ":/object/minProperties-clause.json",
+    ":/object/required-clause.json",
   }));
 
   return 0;

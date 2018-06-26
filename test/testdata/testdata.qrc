@@ -17,5 +17,8 @@
         <file>array/minItems-clause.json</file>
         <file>array/uniqueItems-clause.json</file>
         <file>array/contains-clause.json</file>
+        <file>object/maxProperties-clause.json</file>
+        <file>object/minProperties-clause.json</file>
+        <file>object/required-clause.json</file>
     </qresource>
 </RCC>

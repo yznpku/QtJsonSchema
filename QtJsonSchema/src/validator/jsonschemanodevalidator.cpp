@@ -78,6 +78,17 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::validateNode(const Jso
       errors.append(containsClause(schemaPtr, instancePtr));
   }
 
+  else if (instancePtr.v.isObject()) {
+    if (o.contains("maxProperties"))
+      errors.append(maxPropertiesClause(schemaPtr, instancePtr));
+
+    if (o.contains("minProperties"))
+      errors.append(minPropertiesClause(schemaPtr, instancePtr));
+
+    if (o.contains("required"))
+      errors.append(requiredClause(schemaPtr, instancePtr));
+  }
+
   return errors;
 }
 
@@ -348,4 +359,42 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::containsClause(const J
       return {};
 
   return {{ schemaPtr, instancePtr, "contains" }};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::maxPropertiesClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& schemaValue = schemaPtr.v["maxProperties"].toInt();
+  const auto& instance = instancePtr.v.toObject();
+
+  if (instance.size() <= schemaValue)
+    return {};
+
+  return {{ schemaPtr, instancePtr, "maxProperties" }};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::minPropertiesClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& schemaValue = schemaPtr.v["minProperties"].toInt();
+  const auto& instance = instancePtr.v.toObject();
+
+  if (instance.size() >= schemaValue)
+    return {};
+
+  return {{ schemaPtr, instancePtr, "minProperties" }};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::requiredClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& schemaValue = schemaPtr.v["required"].toArray();
+  const auto& instance = instancePtr.v.toObject();
+
+  QStringList missingProperties;
+  for (auto i = schemaValue.constBegin(); i != schemaValue.constEnd(); i++)
+    if (!instance.contains(i->toString()))
+      missingProperties.append(i->toString());
+
+  if (missingProperties.isEmpty())
+    return {};
+
+  return {{ schemaPtr, instancePtr, "required" }};
 }
