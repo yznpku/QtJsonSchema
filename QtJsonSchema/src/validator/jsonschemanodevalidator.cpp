@@ -1,4 +1,5 @@
 #include "jsonschemanodevalidator.h"
+#include "../hashfunctions.h"
 #include <cmath>
 
 JsonSchemaNodeValidator* JsonSchemaNodeValidator::getValidator(JsonSchemaVersion::Version version)
@@ -69,6 +70,9 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::validateNode(const Jso
 
     if (o.contains("minItems"))
       errors.append(minItemsClause(schemaPtr, instancePtr));
+
+    if (o.contains("uniqueItems"))
+      errors.append(uniqueItemsClause(schemaPtr, instancePtr));
   }
 
   return errors;
@@ -275,7 +279,6 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::itemsClause(const Json
 
 QList<JsonSchemaValidationError> JsonSchemaNodeValidator::additionalItemsClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
 {
-  const auto& schemaValue = schemaPtr.v["additionalItems"];
   const auto& instance = instancePtr.v.toArray();
 
   QList<JsonSchemaValidationError> errors;
@@ -310,4 +313,23 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::minItemsClause(const J
     return {};
 
   return {{ schemaPtr, instancePtr, "minItems" }};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::uniqueItemsClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& schemaValue = schemaPtr.v["uniqueItems"].toBool();
+  const auto& instance = instancePtr.v.toArray();
+
+  if (schemaValue) {
+    QSet<QJsonValue> set;
+    for (auto i = instance.constBegin(); i != instance.constEnd(); i++)
+      set.insert(*i);
+
+    if (set.size() == instance.size())
+      return {};
+
+    return {{ schemaPtr, instancePtr, "uniqueItems" }};
+  }
+
+  return {};
 }

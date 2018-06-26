@@ -15,5 +15,6 @@
         <file>array/items-clause-group.json</file>
         <file>array/maxItems-clause.json</file>
         <file>array/minItems-clause.json</file>
+        <file>array/uniqueItems-clause.json</file>
     </qresource>
 </RCC>
