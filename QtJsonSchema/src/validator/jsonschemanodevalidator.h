@@ -44,6 +44,7 @@ protected:
   virtual QList<JsonSchemaValidationError> requiredClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr);
   virtual QList<JsonSchemaValidationError> propertiesClauseGroup(const JsonPointer& schemaPtr, const JsonPointer& instancePtr);
   virtual QList<JsonSchemaValidationError> dependenciesClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr);
+  virtual QList<JsonSchemaValidationError> propertyNamesClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr);
 };
 
 #endif // JSONSCHEMANODEVALIDATOR_H

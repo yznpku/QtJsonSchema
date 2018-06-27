@@ -1,0 +1,28 @@
+{
+  "testCases": [
+    {
+      "schema": {
+        "propertyNames": {
+          "minLength": 3,
+          "maxLength": 5
+        }
+      },
+      "accept": [
+        {},
+        {
+          "abc": 1,
+          "abcd": true,
+          "abcde": []
+        }
+      ],
+      "reject": [
+        {
+          "abcdef": 1
+        },
+        {
+          "a": true
+        }
+      ]
+    }
+  ]
+}
