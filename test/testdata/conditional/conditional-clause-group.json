@@ -1,0 +1,54 @@
+{
+  "testCases": [
+    {
+      "schema": {
+        "if": {
+          "type": "array"
+        },
+        "then": {
+          "items": { "type": "number" }
+        },
+        "else": {
+          "type": "number",
+          "maximum": 5
+        }
+      },
+      "accept": [
+        [],
+        [1, 2, 3],
+        0,
+        5
+      ],
+      "reject": [
+        ["hello"],
+        "hello",
+        10
+      ]
+    },
+    {
+      "schema": {
+        "if": false
+      },
+      "accept": [
+        null,
+        true,
+        42,
+        "hello"
+      ],
+      "reject": []
+    },
+    {
+      "schema": {
+        "then": false,
+        "else": false
+      },
+      "accept": [
+        null,
+        true,
+        42,
+        "hello"
+      ],
+      "reject": []
+    }
+  ]
+}

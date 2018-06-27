@@ -98,6 +98,9 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::validateNode(const Jso
       errors.append(propertyNamesClause(schemaPtr, instancePtr));
   }
 
+  if (o.contains("if"))
+    errors.append(conditionalClauseGroup(schemaPtr, instancePtr));
+
   return errors;
 }
 
@@ -504,4 +507,21 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::propertyNamesClause(co
   }
 
   return errors;
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::conditionalClauseGroup(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& schema = schemaPtr.v.toObject();
+
+  if (validateNode(schemaPtr["if"], instancePtr).isEmpty()) {
+    if (schema.contains("then"))
+      return validateNode(schemaPtr["then"], instancePtr);
+  }
+
+  else {
+    if (schema.contains("else"))
+      return validateNode(schemaPtr["else"], instancePtr);
+  }
+
+  return {};
 }

@@ -34,6 +34,8 @@ int main()
     ":/object/properties-clause-group.json",
     ":/object/dependencies-clause.json",
     ":/object/propertyNames-clause.json",
+
+    ":/conditional/conditional-clause-group.json"
   }));
 
   return 0;

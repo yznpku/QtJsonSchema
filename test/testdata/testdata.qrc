@@ -23,5 +23,6 @@
         <file>object/properties-clause-group.json</file>
         <file>object/dependencies-clause.json</file>
         <file>object/propertyNames-clause.json</file>
+        <file>conditional/conditional-clause-group.json</file>
     </qresource>
 </RCC>
