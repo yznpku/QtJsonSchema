@@ -32,6 +32,7 @@ int main()
     ":/object/minProperties-clause.json",
     ":/object/required-clause.json",
     ":/object/properties-clause-group.json",
+    ":/object/dependencies-clause.json",
   }));
 
   return 0;

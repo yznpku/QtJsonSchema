@@ -90,6 +90,9 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::validateNode(const Jso
 
     if (o.contains("properties") || o.contains("patternProperties") || o.contains("additionalProperties"))
       errors.append(propertiesClauseGroup(schemaPtr, instancePtr));
+
+    if (o.contains("dependencies"))
+      errors.append(dependenciesClause(schemaPtr, instancePtr));
   }
 
   return errors;
@@ -450,6 +453,34 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::propertiesClauseGroup(
   if (schema.contains("additionalProperties")) {
     for (auto i = remainingProperties.constBegin(); i != remainingProperties.constEnd(); i++)
       errors.append(validateNode(schemaPtr["additionalProperties"], instancePtr[*i]));
+  }
+
+  return errors;
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::dependenciesClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& schemaValue = schemaPtr.v["dependencies"].toObject();
+  const auto& instance = instancePtr.v.toObject();
+
+  QList<JsonSchemaValidationError> errors;
+
+  for (auto i = schemaValue.constBegin(); i != schemaValue.constEnd(); i++) {
+    if (instance.contains(i.key())) {
+
+      // property dependencies
+      if (i.value().isArray()) {
+        const auto& dependencies = i.value().toArray();
+        for (auto j = dependencies.constBegin(); j != dependencies.constEnd(); j++)
+          if (!instance.contains(j->toString()))
+            errors.append({{ schemaPtr, instancePtr, "dependencies" }});
+      }
+
+      // schema dependencies
+      else {
+        errors.append(validateNode(schemaPtr["dependencies"][i.key()], instancePtr));
+      }
+    }
   }
 
   return errors;

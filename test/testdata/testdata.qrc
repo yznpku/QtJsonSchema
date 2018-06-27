@@ -21,5 +21,6 @@
         <file>object/minProperties-clause.json</file>
         <file>object/required-clause.json</file>
         <file>object/properties-clause-group.json</file>
+        <file>object/dependencies-clause.json</file>
     </qresource>
 </RCC>
