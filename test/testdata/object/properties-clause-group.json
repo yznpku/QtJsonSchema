@@ -1,0 +1,107 @@
+{
+  "testCases": [
+    {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "number":      { "type": "number" },
+          "street_name": { "type": "string" },
+          "street_type": { "type": "string",
+                           "enum": ["Street", "Avenue", "Boulevard"]
+                         }
+        }
+      },
+      "accept": [
+        { "number": 1600, "street_name": "Pennsylvania", "street_type": "Avenue" },
+        { "number": 1600, "street_name": "Pennsylvania" },
+        {},
+        { "number": 1600, "street_name": "Pennsylvania", "street_type": "Avenue",
+          "direction": "NW" }
+      ],
+      "reject": [
+        { "number": "1600", "street_name": "Pennsylvania", "street_type": "Avenue" }
+      ]
+    },
+    {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "number":      { "type": "number" },
+          "street_name": { "type": "string" },
+          "street_type": { "type": "string",
+                           "enum": ["Street", "Avenue", "Boulevard"]
+                         }
+        },
+        "additionalProperties": false
+      },
+      "accept": [
+        { "number": 1600, "street_name": "Pennsylvania", "street_type": "Avenue" }
+      ],
+      "reject": [
+        { "number": 1600, "street_name": "Pennsylvania", "street_type": "Avenue",
+          "direction": "NW" }
+      ]
+    },
+    {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "number":      { "type": "number" },
+          "street_name": { "type": "string" },
+          "street_type": { "type": "string",
+                           "enum": ["Street", "Avenue", "Boulevard"]
+                         }
+        },
+        "additionalProperties": { "type": "string" }
+      },
+      "accept": [
+        { "number": 1600, "street_name": "Pennsylvania", "street_type": "Avenue" },
+        { "number": 1600, "street_name": "Pennsylvania", "street_type": "Avenue",
+          "direction": "NW" }
+      ],
+      "reject": [
+        { "number": 1600, "street_name": "Pennsylvania", "street_type": "Avenue",
+          "office_number": 201  }
+      ]
+    },
+    {
+      "schema": {
+        "type": "object",
+        "patternProperties": {
+          "^S_": { "type": "string" },
+          "^I_": { "type": "integer" }
+        },
+        "additionalProperties": false
+      },
+      "accept": [
+        { "S_25": "This is a string" },
+        { "I_0": 42 }
+      ],
+      "reject": [
+        { "S_0": 42 },
+        { "I_42": "This is a string" },
+        { "keyword": "value" }
+      ]
+    },
+    {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "builtin": { "type": "number" }
+        },
+        "patternProperties": {
+          "^S_": { "type": "string" },
+          "^I_": { "type": "integer" }
+        },
+        "additionalProperties": { "type": "string" }
+      },
+      "accept": [
+        { "builtin": 42 },
+        { "keyword": "value", "I_0": 42 }
+      ],
+      "reject": [
+        { "keyword": 42 }
+      ]
+    }
+  ]
+}

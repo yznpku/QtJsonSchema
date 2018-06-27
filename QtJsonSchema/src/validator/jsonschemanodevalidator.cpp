@@ -87,6 +87,9 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::validateNode(const Jso
 
     if (o.contains("required"))
       errors.append(requiredClause(schemaPtr, instancePtr));
+
+    if (o.contains("properties") || o.contains("patternProperties") || o.contains("additionalProperties"))
+      errors.append(propertiesClauseGroup(schemaPtr, instancePtr));
   }
 
   return errors;
@@ -397,4 +400,57 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::requiredClause(const J
     return {};
 
   return {{ schemaPtr, instancePtr, "required" }};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::propertiesClauseGroup(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  const auto& schema = schemaPtr.v.toObject();
+  const auto& instance = instancePtr.v.toObject();
+
+  QList<JsonSchemaValidationError> errors;
+  QSet<QString> remainingProperties;
+
+  for (auto i = instance.constBegin(); i != instance.constEnd(); i++)
+    remainingProperties.insert(i.key());
+
+  if (schema.contains("properties")) {
+    const auto& schemaValue = schemaPtr.v["properties"].toObject();
+    for (auto i = remainingProperties.begin(); i != remainingProperties.end();) {
+      if (schemaValue.contains(*i)) {
+        errors.append(validateNode(schemaPtr["properties"][*i], instancePtr[*i]));
+        i = remainingProperties.erase(i);
+      } else {
+        i++;
+      }
+    }
+  }
+
+  if (schema.contains("patternProperties")) {
+    const auto& schemaValue = schemaPtr.v["patternProperties"].toObject();
+    for (auto i = remainingProperties.begin(); i != remainingProperties.end();) {
+      bool hasMatch = false;
+
+      for (auto j = schemaValue.constBegin(); j != schemaValue.constEnd(); j++) {
+        auto pattern = QRegularExpression(j.key());
+        auto match = pattern.match(*i);
+        if (match.hasMatch()) {
+          errors.append(validateNode(schemaPtr["patternProperties"][j.key()], instancePtr[*i]));
+          hasMatch = true;
+          break;
+        }
+      }
+
+      if (hasMatch)
+        i = remainingProperties.erase(i);
+      else
+        i++;
+    }
+  }
+
+  if (schema.contains("additionalProperties")) {
+    for (auto i = remainingProperties.constBegin(); i != remainingProperties.constEnd(); i++)
+      errors.append(validateNode(schemaPtr["additionalProperties"], instancePtr[*i]));
+  }
+
+  return errors;
 }

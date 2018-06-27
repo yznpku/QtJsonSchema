@@ -31,6 +31,7 @@ int main()
     ":/object/maxProperties-clause.json",
     ":/object/minProperties-clause.json",
     ":/object/required-clause.json",
+    ":/object/properties-clause-group.json",
   }));
 
   return 0;

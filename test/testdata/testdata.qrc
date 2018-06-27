@@ -20,5 +20,6 @@
         <file>object/maxProperties-clause.json</file>
         <file>object/minProperties-clause.json</file>
         <file>object/required-clause.json</file>
+        <file>object/properties-clause-group.json</file>
     </qresource>
 </RCC>
