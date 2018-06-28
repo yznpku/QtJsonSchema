@@ -35,7 +35,12 @@ int main()
     ":/object/dependencies-clause.json",
     ":/object/propertyNames-clause.json",
 
-    ":/conditional/conditional-clause-group.json"
+    ":/conditional/conditional-clause-group.json",
+
+    ":/boolean-logic/allOf-clause.json",
+    ":/boolean-logic/anyOf-clause.json",
+    ":/boolean-logic/oneOf-clause.json",
+    ":/boolean-logic/not-clause.json",
   }));
 
   return 0;

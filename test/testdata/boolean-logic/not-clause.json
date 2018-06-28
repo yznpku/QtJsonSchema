@@ -1,0 +1,18 @@
+{
+  "testCases": [
+    {
+      "schema": {
+        "not": {
+          "type": "string"
+        }
+      },
+      "accept": [
+        42,
+        { "key": "value" }
+      ],
+      "reject": [
+        "I am a string"
+      ]
+    }
+  ]
+}

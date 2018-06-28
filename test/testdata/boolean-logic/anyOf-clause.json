@@ -1,0 +1,23 @@
+{
+  "testCases": [
+    {
+      "schema": {
+        "anyOf": [
+          { "type": "number", "multipleOf": 7 },
+          { "type": "number", "multipleOf": 5 },
+          { "type": "number", "multipleOf": 3 }
+        ]
+      },
+      "accept": [
+        0,
+        6,
+        15,
+        35,
+        210
+      ],
+      "reject": [
+        2
+      ]
+    }
+  ]
+}

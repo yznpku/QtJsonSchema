@@ -101,6 +101,18 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::validateNode(const Jso
   if (o.contains("if"))
     errors.append(conditionalClauseGroup(schemaPtr, instancePtr));
 
+  if (o.contains("allOf"))
+    errors.append(allOfClause(schemaPtr, instancePtr));
+
+  if (o.contains("anyOf"))
+    errors.append(anyOfClause(schemaPtr, instancePtr));
+
+  if (o.contains("oneOf"))
+    errors.append(oneOfClause(schemaPtr, instancePtr));
+
+  if (o.contains("not"))
+    errors.append(notClause(schemaPtr, instancePtr));
+
   return errors;
 }
 
@@ -522,6 +534,51 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::conditionalClauseGroup
     if (schema.contains("else"))
       return validateNode(schemaPtr["else"], instancePtr);
   }
+
+  return {};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::allOfClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  int n = schemaPtr.v["allOf"].toArray().size();
+
+  for (int i = 0; i < n; i++)
+    if (!validateNode(schemaPtr["allOf"][i], instancePtr).isEmpty())
+      return {{ schemaPtr, instancePtr, "allOf" }};
+
+  return {};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::anyOfClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  int n = schemaPtr.v["anyOf"].toArray().size();
+
+  for (int i = 0; i < n; i++)
+    if (validateNode(schemaPtr["anyOf"][i], instancePtr).isEmpty())
+      return {};
+
+  return {{ schemaPtr, instancePtr, "anyOf" }};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::oneOfClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  int n = schemaPtr.v["oneOf"].toArray().size();
+  int valid = 0;
+
+  for (int i = 0; i < n; i++)
+    if (validateNode(schemaPtr["oneOf"][i], instancePtr).isEmpty())
+      valid += 1;
+
+  if (valid == 1)
+    return {};
+
+  return {{ schemaPtr, instancePtr, "oneOf" }};
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::notClause(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
+{
+  if (validateNode(schemaPtr["not"], instancePtr).isEmpty())
+    return {{ schemaPtr, instancePtr, "not" }};
 
   return {};
 }

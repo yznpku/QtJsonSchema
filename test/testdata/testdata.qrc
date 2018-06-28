@@ -24,5 +24,9 @@
         <file>object/dependencies-clause.json</file>
         <file>object/propertyNames-clause.json</file>
         <file>conditional/conditional-clause-group.json</file>
+        <file>boolean-logic/allOf-clause.json</file>
+        <file>boolean-logic/anyOf-clause.json</file>
+        <file>boolean-logic/not-clause.json</file>
+        <file>boolean-logic/oneOf-clause.json</file>
     </qresource>
 </RCC>

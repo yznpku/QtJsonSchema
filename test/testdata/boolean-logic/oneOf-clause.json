@@ -1,0 +1,20 @@
+{
+  "testCases": [
+    {
+      "schema": {
+        "oneOf": [
+          { "type": "number", "multipleOf": 5 },
+          { "type": "number", "multipleOf": 3 }
+        ]
+      },
+      "accept": [
+        10,
+        9
+      ],
+      "reject": [
+        2,
+        15
+      ]
+    }
+  ]
+}

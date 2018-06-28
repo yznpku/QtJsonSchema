@@ -1,0 +1,32 @@
+{
+  "testCases": [
+    {
+      "schema": {
+        "allOf": [
+          { "type": "string" },
+          { "maxLength": 5 }
+        ]
+      },
+      "accept": [
+        "",
+        "short"
+      ],
+      "reject": [
+        "too long"
+      ]
+    },
+    {
+      "schema": {
+        "allOf": [
+          { "type": "string" },
+          { "type": "number" }
+        ]
+      },
+      "accept": [],
+      "reject": [
+        "No way",
+        -1
+      ]
+    }
+  ]
+}
