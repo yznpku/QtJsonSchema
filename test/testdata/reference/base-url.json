@@ -1,0 +1,47 @@
+{
+  "testCases": [
+    {
+      "schema": {
+        "$id": "http://www.example.com/root.json",
+        "oneOf": [
+          {
+            "$ref": "http://www.example.com/a.json"
+          },
+          {
+            "$ref": "http://www.example.com/b/b/b.json"
+          },
+          {
+            "$ref": "http://www.example.com/b/b/c.json"
+          }
+        ],
+        "definitions": {
+          "a": {
+            "$id": "a.json",
+            "const": "a"
+          },
+          "b": {
+            "$id": "b/b/b.json",
+            "type": "array",
+            "items": {
+              "$id": "c.json",
+              "const": "c"
+            },
+            "minItems": 1
+          }
+        }
+      },
+      "accept": [
+        "a",
+        "c",
+        ["c"],
+        ["c", "c"]
+      ],
+      "reject": [
+        null,
+        "d",
+        {},
+        []
+      ]
+    }
+  ]
+}

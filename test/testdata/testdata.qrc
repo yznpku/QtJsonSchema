@@ -28,5 +28,8 @@
         <file>boolean-logic/anyOf-clause.json</file>
         <file>boolean-logic/not-clause.json</file>
         <file>boolean-logic/oneOf-clause.json</file>
+        <file>reference/base-url.json</file>
+        <file>reference/fragment.json</file>
+        <file>reference/pointer.json</file>
     </qresource>
 </RCC>

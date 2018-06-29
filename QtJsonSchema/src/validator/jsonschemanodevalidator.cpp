@@ -1,10 +1,22 @@
 #include "jsonschemanodevalidator.h"
 #include "../hashfunctions.h"
 #include <cmath>
+#include "jsonschemanodevalidator07.h"
 
 JsonSchemaNodeValidator* JsonSchemaNodeValidator::getValidator(JsonSchemaVersion::Version version)
 {
-  return new JsonSchemaNodeValidator();
+  return new JsonSchemaNodeValidator07();
+}
+
+void JsonSchemaNodeValidator::setSchema(const QJsonValue& schema)
+{
+  this->schemaRoot = schema;
+  referenceResolver->parseSchema(schemaRoot);
+}
+
+QList<JsonSchemaValidationError> JsonSchemaNodeValidator::validate(const JsonPointer& instancePtr)
+{
+  return validateNode(JsonPointer(schemaRoot), instancePtr);
 }
 
 QList<JsonSchemaValidationError> JsonSchemaNodeValidator::validateNode(const JsonPointer& schemaPtr, const JsonPointer& instancePtr)
@@ -20,6 +32,11 @@ QList<JsonSchemaValidationError> JsonSchemaNodeValidator::validateNode(const Jso
 
   const auto& o = schema.toObject();
   QList<JsonSchemaValidationError> errors;
+
+  if (o.contains("$ref")) {
+    const auto& reference = referenceResolver->resolve(schemaPtr);
+    return validateNode(reference, instancePtr);
+  }
 
   if (o.contains("type"))
     errors.append(typeClause(schemaPtr, instancePtr));

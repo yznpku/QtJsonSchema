@@ -41,6 +41,10 @@ int main()
     ":/boolean-logic/anyOf-clause.json",
     ":/boolean-logic/oneOf-clause.json",
     ":/boolean-logic/not-clause.json",
+
+    ":/reference/base-url.json",
+    ":/reference/fragment.json",
+    ":/reference/pointer.json",
   }));
 
   return 0;

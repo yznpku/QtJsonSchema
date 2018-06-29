@@ -1,4 +1,5 @@
 #include "hashfunctions.h"
+#include "pointer/jsonpointer.h"
 
 uint qHash(const QJsonValue& json, uint seed)
 {
@@ -26,4 +27,9 @@ uint qHash(const QJsonArray& array, uint seed)
 uint qHash(const QJsonObject& object, uint seed)
 {
   return std::accumulate(object.constBegin(), object.constEnd(), seed, HashCombine());
+}
+
+uint qHash(const JsonPointer& ptr, uint seed)
+{
+  return qHash(ptr.path, seed);
 }

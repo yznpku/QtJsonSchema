@@ -16,8 +16,13 @@ public:
 
   JsonPointer operator[](const QString& key) const;
   JsonPointer operator[](int index) const;
+  bool operator==(const JsonPointer& o) const;
+  JsonPointer resolve(const QString& str) const;
 
   bool isValid() const;
+  QString toString() const;
 };
+
+QDebug operator<<(QDebug debug, const JsonPointer& o);
 
 #endif // JSONPOINTER_H

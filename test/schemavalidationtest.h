@@ -1,7 +1,7 @@
 #ifndef SCHEMAVALIDATIONTEST_H
 #define SCHEMAVALIDATIONTEST_H
 
-#include <QtCore>
+#include <QtTest>
 
 class SchemaValidationTest : public QObject
 {

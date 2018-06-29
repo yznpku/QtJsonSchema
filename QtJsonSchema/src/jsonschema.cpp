@@ -62,7 +62,7 @@ JsonSchema JsonSchema::metaSchema(JsonSchemaVersion::Version version)
 
 bool JsonSchema::validate(const QJsonValue& instance) const
 {
-  const auto& errors = d->validator->validateNode(JsonPointer(d->root), JsonPointer(instance));
+  const auto& errors = d->validator->validate(JsonPointer(instance));
   return errors.isEmpty();
 }
 
@@ -99,6 +99,5 @@ JsonSchemaPrivate::JsonSchemaPrivate(JsonSchemaVersion::Version version)
 
 void JsonSchemaPrivate::setSchema(const QJsonValue& schema)
 {
-  root = schema;
-  valid = true;
+  validator->setSchema(schema);
 }

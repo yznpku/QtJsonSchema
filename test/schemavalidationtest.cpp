@@ -1,5 +1,5 @@
 #include "schemavalidationtest.h"
-#include "common.h"
+#include "jsonschema.h"
 
 SchemaValidationTest::SchemaValidationTest(const QStringList& testDataFiles)
 {
@@ -33,9 +33,9 @@ void SchemaValidationTest::test()
 
   const auto& s = JsonSchema::fromJson(schema);
 
-  foreach (const auto& instance, accept.toArray())
-    QVERIFY(s.validate(instance));
+  for (int i = 0, n = accept.toArray().size(); i < n; i++)
+    QVERIFY2(s.validate(accept.toArray()[i]), QString("accept[%1]").arg(i).toLatin1().constData());
 
-  foreach (const auto& instance, reject.toArray())
-    QVERIFY(!s.validate(instance));
+  for (int i = 0, n = reject.toArray().size(); i < n; i++)
+    QVERIFY2(!s.validate(reject.toArray()[i]), QString("reject[%1]").arg(i).toLatin1().constData());
 }

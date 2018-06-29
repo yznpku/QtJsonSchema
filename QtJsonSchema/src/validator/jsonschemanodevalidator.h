@@ -2,17 +2,25 @@
 #define JSONSCHEMANODEVALIDATOR_H
 
 #include <QtCore>
+#include <memory>
 #include "../global.h"
 #include "../pointer/jsonpointer.h"
+#include "../reference-resolver/referenceresolver.h"
 #include "../error/jsonschemavalidationerror.h"
 
 class JsonSchemaNodeValidator
 {
+protected:
+  QJsonValue schemaRoot;
+
+  std::unique_ptr<ReferenceResolver> referenceResolver;
 
 public:
   virtual ~JsonSchemaNodeValidator() {}
   static JsonSchemaNodeValidator* getValidator(JsonSchemaVersion::Version version);
 
+  void setSchema(const QJsonValue& schema);
+  virtual QList<JsonSchemaValidationError> validate(const JsonPointer& instancePtr);
   virtual QList<JsonSchemaValidationError> validateNode(const JsonPointer& schemaPtr, const JsonPointer& instancePtr);
 
 protected:

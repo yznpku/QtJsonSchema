@@ -11,8 +11,6 @@ public:
   QAtomicInt ref;
 
   JsonSchemaVersion::Version version;
-  QJsonValue root;
-  bool valid {false};
   std::unique_ptr<JsonSchemaNodeValidator> validator;
 
 public:
