@@ -1,4 +1,5 @@
 HEADERS += \
+    $$PWD/include/* \
     $$PWD/src/*.h \
     $$PWD/src/validator/*.h \
     $$PWD/src/metaschema/*.h \
