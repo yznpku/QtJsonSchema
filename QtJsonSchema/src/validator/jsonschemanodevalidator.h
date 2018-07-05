@@ -20,6 +20,7 @@ public:
   static JsonSchemaNodeValidator* getValidator(JsonSchemaVersion::Version version);
 
   void setSchema(const QJsonValue& schema);
+  bool isValid() const;
   virtual QList<JsonSchemaValidationError> validate(const JsonPointer& instancePtr);
   virtual QList<JsonSchemaValidationError> validateNode(const JsonPointer& schemaPtr, const JsonPointer& instancePtr);
 

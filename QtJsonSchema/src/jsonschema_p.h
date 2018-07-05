@@ -12,6 +12,7 @@ public:
 
   JsonSchemaVersion::Version version;
   std::unique_ptr<JsonSchemaNodeValidator> validator;
+  bool validAgainstMetaSchema {true};
 
 public:
   JsonSchemaPrivate(JsonSchemaVersion::Version version);

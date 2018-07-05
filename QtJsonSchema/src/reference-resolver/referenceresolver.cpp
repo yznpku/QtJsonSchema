@@ -61,6 +61,9 @@ void ReferenceResolver::traverseForBaseUrl(QUrl baseUrl, const JsonPointer& ptr)
 
   if (v.contains("$id")) {
     baseUrl = baseUrl.resolved(v["$id"].toString()).adjusted(QUrl::NormalizePathSegments);
+    if (baseUrl.fragment().isEmpty())
+      baseUrl = baseUrl.adjusted(QUrl::RemoveFragment);
+
     baseUrlCache[baseUrl] = ptr;
   }
 

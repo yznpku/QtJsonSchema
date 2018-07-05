@@ -14,6 +14,11 @@ void JsonSchemaNodeValidator::setSchema(const QJsonValue& schema)
   referenceResolver->parseSchema(schemaRoot);
 }
 
+bool JsonSchemaNodeValidator::isValid() const
+{
+  return !schemaRoot.isNull() && referenceResolver->isValid();
+}
+
 QList<JsonSchemaValidationError> JsonSchemaNodeValidator::validate(const JsonPointer& instancePtr)
 {
   return validateNode(JsonPointer(schemaRoot), instancePtr);

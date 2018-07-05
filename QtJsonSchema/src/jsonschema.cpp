@@ -1,6 +1,10 @@
 #include "jsonschema.h"
 #include "jsonschema_p.h"
+#include "utils.h"
 #include "validator/jsonschemanodevalidator.h"
+#include "metaschema/draft04.h"
+#include "metaschema/draft06.h"
+#include "metaschema/draft07.h"
 
 JsonSchema::JsonSchema(const JsonSchema& other) noexcept
   : d(other.d)
@@ -31,10 +35,11 @@ JsonSchema JsonSchema::fromJson(const QJsonValue& json, JsonSchemaVersion::Versi
   auto d = schema.d;
 
   const auto& meta = JsonSchema::metaSchema(version);
-  if (!meta.validate(json))
-    return JsonSchema(version);
+  d->validAgainstMetaSchema = meta.validate(json);
 
-  d->setSchema(json);
+  if (d->validAgainstMetaSchema)
+    d->setSchema(json);
+
   return schema;
 }
 
@@ -56,12 +61,32 @@ JsonSchema JsonSchema::fromJsonString(const QByteArray& json, JsonSchemaVersion:
 JsonSchema JsonSchema::metaSchema(JsonSchemaVersion::Version version)
 {
   JsonSchema schema(version);
-  schema.d->setSchema(QJsonValue(QJsonValue::Object));
+
+  const char* str = "";
+
+  switch (version) {
+  case JsonSchemaVersion::Draft04:
+    str = DRAFT04_META_SCHEMA;
+    break;
+  case JsonSchemaVersion::Draft06:
+    str = DRAFT06_META_SCHEMA;
+    break;
+  case JsonSchemaVersion::Draft07:
+    str = DRAFT07_META_SCHEMA;
+    break;
+  }
+
+  const auto& json = QJsonDocument::fromJson(str);
+
+  schema.d->setSchema(jsonDocumentToValue(json));
   return schema;
 }
 
 bool JsonSchema::validate(const QJsonValue& instance) const
 {
+  if (!isValid())
+    return false;
+
   const auto& errors = d->validator->validate(JsonPointer(instance));
   return errors.isEmpty();
 }
@@ -83,7 +108,7 @@ bool JsonSchema::validate(const QByteArray& instance) const
 
 bool JsonSchema::isValid() const
 {
-  return true;
+  return d->validAgainstMetaSchema && d->validator->isValid();
 }
 
 JsonSchema::JsonSchema(JsonSchemaVersion::Version version)
