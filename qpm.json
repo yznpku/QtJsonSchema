@@ -1,6 +1,6 @@
 {
-  "name": "com.futurecode.QtJsonSchema",
-  "description": "",
+  "name": "com.futurecode.qtjsonschema",
+  "description": "A json schema validator.",
   "author": {
     "name": "FutureCode",
     "email": "yzn20080@gmail.com"
